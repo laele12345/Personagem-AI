@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Personagem AI</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+
+margin:0;
+
+font-family:Arial,sans-serif;
+
+background:
+linear-gradient(135deg,#080b16,#15102b);
+
+color:white;
+
+min-height:100vh;
+
+}
+
+header{
+
+text-align:center;
+
+padding:35px 20px;
+
+background:#0d111f;
+
+border-bottom:1px solid #292442;
+
+}
+
+header h1{
+
+margin:0;
+
+font-size:38px;
+
+color:#a78bfa;
+
+}
+
+header p{
+
+color:#9ca3af;
+
+}
+
+.container{
+
+max-width:1000px;
+
+margin:auto;
+
+padding:25px;
+
+}
+
+.card{
+
+background:#151a2b;
+
+border:1px solid #2b3150;
+
+border-radius:20px;
+
+padding:25px;
+
+margin-bottom:20px;
+
+box-shadow:0 10px 30px #0005;
+
+}
+
+.grid{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:15px;
+
+}
+
+label{
+
+font-weight:bold;
+
+display:block;
+
+margin-bottom:7px;
+
+}
+
+input,select{
+
+width:100%;
+
+padding:13px;
+
+border-radius:10px;
+
+border:1px solid #39405f;
+
+background:#0e1424;
+
+color:white;
+
+}
+
+button{
+
+border:0;
+
+border-radius:10px;
+
+padding:13px 18px;
+
+background:#303852;
+
+color:white;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+button:hover{
+
+transform:translateY(-1px);
+
+opacity:.9;
+
+}
+
+.generate{
+
+width:100%;
+
+margin-top:20px;
+
+padding:16px;
+
+font-size:17px;
+
+background:#7c3aed;
+
+}
+
+.resultado{
+
+white-space:pre-wrap;
+
+line-height:1.7;
+
+min-height:300px;
+
+color:#e5e7eb;
+
+}
+
+.botoes{
+
+display:flex;
+
+gap:10px;
+
+margin-top:20px;
+
+}
+
+.botoes button{
+
+flex:1;
+
+}
+
+.personagem{
+
+background:#20263a;
+
+border-radius:12px;
+
+padding:15px;
+
+margin-top:10px;
+
+}
+
+.apagar{
+
+background:#b91c1c;
+
+margin-top:10px;
+
+}
+
+.vazio{
+
+color:#9ca3af;
+
+}
+
+footer{
+
+text-align:center;
+
+padding:30px;
+
+color:#6b7280;
+
+}
+
+@media(max-width:650px){
+
+.grid{
+
+grid-template-columns:1fr;
+
+}
+
+.botoes{
+
+flex-direction:column;
+
+}
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>✨ Personagem AI</h1>
+
+<p>Crie personagens únicos gratuitamente</p>
+
+</header>
+
+
+<div class="container">
+
+
+<div class="card">
+
+<h2>🧙 Criador avançado</h2>
+
+
+<div class="grid">
+
+
+<div>
+
+<label>Nome</label>
+
+<input id="nome"
+placeholder="Ex: Kael">
+
+</div>
+
+
+<div>
+
+<label>Idade</label>
+
+<input id="idade"
+type="number"
+placeholder="Ex: 18">
+
+</div>
+
+
+<div>
+
+<label>Universo</label>
+
+<select id="universo">
+
+<option>Anime</option>
+
+<option>Fantasia</option>
+
+<option>Super-herói</option>
+
+<option>Ficção científica</option>
+
+<option>Medieval</option>
+
+<option>Terror</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>Personalidade</label>
+
+<select id="personalidade">
+
+<option>Inocente</option>
+
+<option>Corajoso</option>
+
+<option>Frio</option>
+
+<option>Engraçado</option>
+
+<option>Misterioso</option>
+
+<option>Inteligente</option>
+
+<option>Impulsivo</option>
+
+<option>Calmo</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>Aparência</label>
+
+<select id="aparencia">
+
+<option>Cabelos pretos e olhos intensos</option>
+
+<option>Cabelos brancos e olhos claros</option>
+
+<option>Cabelos vermelhos e olhar determinado</option>
+
+<option>Cabelos azuis e aparência elegante</option>
+
+<option>Cabelos longos e aparência misteriosa</option>
+
+<option>Aparência selvagem e intimidadora</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>Estilo de luta</label>
+
+<select id="luta">
+
+<option>Artes marciais</option>
+
+<option>Espadachim</option>
+
+<option>Boxe</option>
+
+<option>Jiu-Jitsu</option>
+
+<option>Combate acrobático</option>
+
+<option>Combate à distância</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>Roupa</label>
+
+<select id="roupa">
+
+<option>Casaco preto</option>
+
+<option>Armadura futurista</option>
+
+<option>Uniforme de guerreiro</option>
+
+<option>Roupas medievais</option>
+
+<option>Traje de herói</option>
+
+<option>Roupa simples e elegante</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>Alinhamento</label>
+
+<select id="alinhamento">
+
+<option>Herói</option>
+
+<option>Anti-herói</option>
+
+<option>Vilão</option>
+
+<option>Neutro</option>
+
+<option>Protetor</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>Origem</label>
+
+<select id="origem">
+
+<option>Uma pequena vila</option>
+
+<option>Uma cidade futurista</option>
+
+<option>Um reino destruído</option>
+
+<option>Uma organização secreta</option>
+
+<option>Outro planeta</option>
+
+<option>Uma família lendária</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>Objetivo</label>
+
+<select id="objetivo">
+
+<option>Proteger sua família</option>
+
+<option>Ficar mais forte</option>
+
+<option>Descobrir seu passado</option>
+
+<option>Derrotar seu maior inimigo</option>
+
+<option>Salvar seu mundo</option>
+
+<option>Encontrar seu verdadeiro destino</option>
+
+</select>
+
+</div>
+
+
+</div>
+
+
+<button class="generate"
+onclick="gerar()">
+
+✨ GERAR PERSONAGEM
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>📖 Personagem criado</h2>
+
+<div id="resultado"
+class="resultado">
+
+Seu personagem aparecerá aqui.
+
+</div>
+
+
+<div class="botoes">
+
+<button onclick="copiar()">
+
+📋 Copiar
+
+</button>
+
+
+<button onclick="salvar()">
+
+💾 Salvar
+
+</button>
+
+
+<button onclick="gerarAleatorio()">
+
+🎲 Aleatório
+
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>💾 Personagens salvos</h2>
+
+<div id="salvos">
+
+<p class="vazio">
+
+Nenhum personagem salvo.
+
+</p>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<footer>
+
+Personagem AI • Projeto gratuito
+
+</footer>
+
+
+<script>
+
+
+let atual="";
+
+
+function gerar(){
+
+
+let nome=
+document.getElementById("nome").value
+.trim();
+
+let idade=
+document.getElementById("idade").value;
+
+let universo=
+document.getElementById("universo").value;
+
+let personalidade=
+document.getElementById("personalidade").value;
+
+let aparencia=
+document.getElementById("aparencia").value;
+
+let luta=
+document.getElementById("luta").value;
+
+let roupa=
+document.getElementById("roupa").value;
+
+let alinhamento=
+document.getElementById("alinhamento").value;
+
+let origem=
+document.getElementById("origem").value;
+
+let objetivo=
+document.getElementById("objetivo").value;
+
+
+if(!nome){
+
+nome="Personagem";
+
+}
+
+if(!idade){
+
+idade="18";
+
+}
+
+
+let poderes=[
+
+"controle de fogo",
+
+"controle de gelo",
+
+"manipulação de sombras",
+
+"telecinese",
+
+"super velocidade",
+
+"força sobrenatural",
+
+"regeneração",
+
+"controle de eletricidade",
+
+"manipulação de energia",
+
+"teletransporte",
+
+"controle da natureza",
+
+"manipulação da gravidade"
+
+];
+
+
+let poder=
+poderes[
+Math.floor(
+Math.random()*poderes.length
+)
+];
+
+
+atual=
+
+`━━━━━━━━━━━━━━━━━━━━
+✨ PERSONAGEM
+━━━━━━━━━━━━━━━━━━━━
+
+NOME
+${nome}
+
+IDADE
+${idade} anos
+
+UNIVERSO
+${universo}
+
+ALINHAMENTO
+${alinhamento}
+
+PERSONALIDADE
+${personalidade}
+
+APARÊNCIA
+${aparencia}
+
+ROUPA
+${roupa}
+
+ESTILO DE LUTA
+${luta}
+
+PODER PRINCIPAL
+${poder}
+
+ORIGEM
+${origem}
+
+OBJETIVO
+${objetivo}
+
+
+📖 HISTÓRIA
+
+${nome} nasceu em ${origem}.
+
+Desde cedo, sua personalidade
+${personalidade.toLowerCase()}
+o tornou diferente das outras pessoas.
+
+Com o passar dos anos,
+descobriu que possuía o poder de
+${poder}.
+
+Agora, como ${alinhamento.toLowerCase()},
+precisa enfrentar os desafios de
+${universo} enquanto tenta
+${objetivo.toLowerCase()}.
+
+Seu estilo de combate é baseado em
+${luta}.
+
+━━━━━━━━━━━━━━━━━━━━
+PERSONAGEM AI
+━━━━━━━━━━━━━━━━━━━━`;
+
+
+document.getElementById("resultado")
+.textContent=atual;
+
+
+}
+
+
+function copiar(){
+
+
+if(!atual){
+
+alert("Crie um personagem primeiro!");
+
+return;
+
+}
+
+
+navigator.clipboard
+.writeText(atual);
+
+alert("Personagem copiado!");
+
+}
+
+
+function salvar(){
+
+
+if(!atual){
+
+alert("Crie um personagem primeiro!");
+
+return;
+
+}
+
+
+let lista=
+JSON.parse(
+localStorage.getItem("personagens")||"[]"
+);
+
+
+lista.unshift(atual);
+
+
+localStorage.setItem(
+"personagens",
+JSON.stringify(lista)
+);
+
+
+mostrarSalvos();
+
+alert("Personagem salvo!");
+
+}
+
+
+function mostrarSalvos(){
+
+
+let lista=
+JSON.parse(
+localStorage.getItem("personagens")||"[]"
+);
+
+
+let area=
+document.getElementById("salvos");
+
+
+if(lista.length===0){
+
+area.innerHTML=
+'<p class="vazio">Nenhum personagem salvo.</p>';
+
+return;
+
+}
+
+
+area.innerHTML="";
+
+
+lista.forEach((personagem,index)=>{
+
+
+let div=
+document.createElement("div");
+
+
+div.className="personagem";
+
+
+let nome=
+personagem
+.split("\n")
+[4];
+
+
+div.innerHTML=
+
+`<strong>${nome || "Personagem"}</strong>
+<br><br>
+
+<button onclick="abrir(${index})">
+
+👁️ Abrir
+
+</button>
+
+<button class="apagar"
+onclick="apagar(${index})">
+
+🗑️ Apagar
+
+</button>`;
+
+
+area.appendChild(div);
+
+
+});
+
+
+}
+
+
+function abrir(index){
+
+
+let lista=
+JSON.parse(
+localStorage.getItem("personagens")||"[]"
+);
+
+
+atual=lista[index];
+
+
+document.getElementById("resultado")
+.textContent=atual;
+
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+
+}
+
+
+function apagar(index){
+
+
+let lista=
+JSON.parse(
+localStorage.getItem("personagens")||"[]"
+);
+
+
+lista.splice(index,1);
+
+
+localStorage.setItem(
+"personagens",
+JSON.stringify(lista)
+);
+
+
+mostrarSalvos();
+
+
+}
+
+
+function gerarAleatorio(){
+
+
+let nomes=[
+
+"Kael",
+
+"Dante",
+
+"Niko",
+
+"Raven",
+
+"Astra",
+
+"Luan",
+
+"Akira",
+
+"Ren",
+
+"Victor",
+
+"Leon"
+
+];
+
+
+document.getElementById("nome")
+.value=
+nomes[
+Math.floor(
+Math.random()*nomes.length
+)
+];
+
+
+document.getElementById("idade")
+.value=
+Math.floor(
+Math.random()*15
+)+15;
+
+
+gerar();
+
+
+}
+
+
+mostrarSalvos();
+
+
+</script>
+
+
+</body>
+
+</html>
